@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Cat Pictures</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1, button, #catImageContainer {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Cat Pictures</h1>
+
+    <button onclick="getRandomCat()">Get Random Cat</button>
+
+    <div id="catImageContainer"></div>
+
+    <script>
+        function getRandomCat() {
+            const catImageContainer = document.getElementById('catImageContainer');
+
+            // Replace 'YOUR_CAT_API_KEY' with your actual Cat API key
+            const apiKey = 'live_cieqeoCgldvZJlDhs8xug8gDze6RfnNIWr7A9hfc7lckyLT6XBaa7kgA1F1wnUP2';
+            const apiUrl = 'https://api.thecatapi.com/v1/images/search';
+
+            // Make a GET request to The Cat API
+            $.ajax({
+                type: 'GET',
+                url: apiUrl,
+                headers: {
+                    'x-api-key': apiKey
+                },
+                success: function (response) {
+                    const imageUrl = response[0].url;
+                    const catImage = document.createElement('img');
+                    catImage.src = imageUrl;
+                    catImage.alt = 'Random Cat';
+                    catImageContainer.innerHTML = '';
+                    catImageContainer.appendChild(catImage);
+                },
+                error: function (error) {
+                    console.error('Error fetching cat image:', error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
